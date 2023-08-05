@@ -1,0 +1,7 @@
+https://www.kindacode.com/article/flutter-gridview-builder-example/
+https://api.flutter.dev/flutter/widgets/GridView-class.html
+https://github.com/londonappbrewery/todoey-flutter
+https://www.youtube.com/watch?v=6l2jDERA5eI                 mvvm
+https://pub.dev/packages/shared_preferences
+https://github.com/noob-gamedestroyer/MVVM-Notes-app/tree/master
+https://in.pinterest.com/3ldcreations/notes-app-ui-design/
