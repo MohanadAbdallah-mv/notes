@@ -15,6 +15,10 @@ class NoteApp extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => NoteListViewModel(),
         child: MaterialApp(
+          theme: ThemeData.dark().copyWith(
+              appBarTheme: AppBarTheme(color: Color(0xff000000)),
+              primaryColor: Color(0xFFE2E2E2),
+              scaffoldBackgroundColor: Color(0xFF000000)),
           home: NotesListView(),
         ));
   }

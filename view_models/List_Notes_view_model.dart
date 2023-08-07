@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/models/note_model.dart';
 
 class NoteListViewModel extends ChangeNotifier {
-  List<Note> _noteslist = [Note("note1title", "_description"),Note("note2title", "_description")];
+  List<Note> _noteslist = [Note("note1title", "descriptiondescriptiondescriptiondescriptiondescription"),Note("note2title", "descriptiondescriptiondescriptiondescriptiondescriptiondescription")];
 
   void newNote(String title, String description) {
     Note note = Note(title, description);

@@ -1,48 +1,60 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:notes/view_models/List_Notes_view_model.dart';
+import 'package:notes/views/Add_Note_Screen.dart';
 import 'package:provider/provider.dart';
 
-class NotesListView extends StatelessWidget {
+import '../widgets/grid_tile_widget.dart';
+
+class NotesListView extends StatefulWidget {
   const NotesListView({super.key});
 
   @override
+  State<NotesListView> createState() => _NotesListViewState();
+}
+
+class _NotesListViewState extends State<NotesListView> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: AppBar(title: Text("Notes"),),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF393939),
+        child: Icon(Icons.add,color: Color(0xFFE75E4E),),
+        onPressed: () {
+          Navigator.push(context,MaterialPageRoute(builder: (context)=> AddNoteScreen()));
+        },
+      ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              FloatingActionButton(
-                onPressed: () {
-                  var notes =
-                      Provider.of<NoteListViewModel>(context, listen: false)
-                          .Notes[0]
-                          .title;
-                  print(notes);
-                },
-                child: Text("click"),
-              ),
-              GridView.builder(scrollDirection: Axis.vertical,shrinkWrap: true,
-                  gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 100,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [SizedBox(height: 16,),
+            Expanded(
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 1,childAspectRatio: 3/2,mainAxisExtent: 350
                       ),
                   itemCount:
-                      Provider.of<NoteListViewModel>(context, listen: false)
+                      Provider.of<NoteListViewModel>(context)
                           .noteCount,
                   itemBuilder: (BuildContext context, index) {
-                    return Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Text(Provider.of<NoteListViewModel>(context)
-                          .Notes[index].title),
-                    );
+                    return Grid_Tile_Widget(index);
                   }),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
+
+// Container(
+// alignment: Alignment.center,
+// decoration: BoxDecoration(
+// color: Colors.red,
+// borderRadius: BorderRadius.circular(15)),
+// child: Text(Provider.of<NoteListViewModel>(context)
+//     .Notes[index].title),
+// )
