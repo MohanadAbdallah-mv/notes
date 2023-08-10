@@ -17,30 +17,44 @@ class NotesListView extends StatefulWidget {
 class _NotesListViewState extends State<NotesListView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("Notes"),),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Notes"),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF393939),
-        child: Icon(Icons.add,color: Color(0xFFE75E4E),),
+        child: Icon(
+          Icons.draw,
+          color: Color(0xFFE75E4E),
+        ),
         onPressed: () {
-          Navigator.push(context,MaterialPageRoute(builder: (context)=> AddNoteScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddNoteScreen()));
         },
       ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [SizedBox(height: 16,),
+          children: [
+            SizedBox(
+              height: 16,
+            ),
             Expanded(
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 1,childAspectRatio: 3/2,mainAxisExtent: 350
-                      ),
-                  itemCount:
-                      Provider.of<NoteListViewModel>(context)
-                          .noteCount,
-                  itemBuilder: (BuildContext context, index) {
-                    return Grid_Tile_Widget(index);
-                  }),
+              child: Consumer<NoteListViewModel>(
+                builder: (context, notedata, child) {
+                  return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 1,
+                          childAspectRatio: 3 / 2,
+                          mainAxisExtent: 350),
+                      itemCount:
+                          notedata.noteCount,
+                      itemBuilder: (BuildContext context, index) {
+                        return Grid_Tile_Widget(index);
+                      });
+                },
+              ),
             ),
           ],
         ),
@@ -48,7 +62,6 @@ class _NotesListViewState extends State<NotesListView> {
     );
   }
 }
-
 
 // Container(
 // alignment: Alignment.center,

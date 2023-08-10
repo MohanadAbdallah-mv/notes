@@ -1,68 +1,120 @@
 import 'package:flutter/material.dart';
 import 'package:notes/view_models/List_Notes_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:notes/models/note_model.dart';
+import 'package:intl/intl.dart';
 
 class AddNoteScreen extends StatefulWidget {
-  const AddNoteScreen({super.key});
+  Note? note;
+
+  AddNoteScreen({this.note});
+
+  AddNoteScreen.empty();
 
   @override
   State<AddNoteScreen> createState() => _AddNoteScreenState();
 }
 
 class _AddNoteScreenState extends State<AddNoteScreen> {
-  late String title;
-  late String description;
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
+  late String tempTitle;
+
+  late String tempDescription;
+
+  //late TextEditingController titlee;
+  bool isOpen = false;
+
+  @override
+  void initState() {
+    if (widget.note != null) {
+      title.text = widget.note!.title;
+      description.text = widget.note!.description;
+    } // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notes"),
+        title: TextField(
+          autofocus: true,
+          textAlign: TextAlign.start,
+          controller: title,cursorColor: Color(0xFFE75E4E),
+          decoration: InputDecoration(hintText: "Title"),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: isOpen ? 50 : 25),
+          onChanged: (new_title) {
+            tempTitle = new_title;
+          },
+          onTapOutside: (value) {
+            setState(() {
+              isOpen = !isOpen;
+            });
+          },
+          onTap: () {
+            setState(() {
+              isOpen = !isOpen;
+            });
+          },
+        ),
+        bottom: PreferredSize(
+          child: isOpen
+              ? Container(color: Colors.black, height: 100)
+              : Container(),
+          preferredSize: Size.fromHeight(isOpen ? 100 : 0),
+        ),
       ),
       body: Container(
         color: Color(0xff757575),
         child: Container(
-
-          padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                "Add Note",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.lightBlueAccent,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold),
+              Expanded(
+                flex: 9,
+                child: TextField(
+                  maxLines: null,
+                  minLines: 30,
+                  autofocus: true,
+                  textAlign: TextAlign.start,
+                  cursorColor: Color(0xFFE75E4E),
+                  controller: description,
+                  onChanged: (new_desc) {
+                    tempDescription = new_desc;
+                  },
+                ),
               ),
-              TextField(
-                autofocus: true,
-                textAlign: TextAlign.center,
-                onChanged: (new_title) {
-                  title = new_title;
-                },
-              ),
-              TextField(
-                autofocus: true,
-                textAlign: TextAlign.center,
-                onChanged: (new_desc) {
-                  description = new_desc;
-                },
-              ),
-              TextButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.lightBlueAccent),
-                    foregroundColor: MaterialStateProperty.all(Colors.white)),
-                onPressed: () {
-                  print(title);
-                  print(description);
-                  Provider.of<NoteListViewModel>(context, listen: false)
-                      .newNote(title, description);
+              Expanded(
+                flex: 1,
+                child: Consumer<NoteListViewModel>(
+                  builder: (context, notedata, child) {
+                    return TextButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xFFE75E4E)),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.white)),
+                      onPressed: () {
+                        if ((title.text).isEmpty) {
+                          title.text = DateFormat.MMMd().format(DateTime.now());
+                        }
+                        if (widget.note != null) {
+                          notedata.editNoteDescription(
+                              widget.note!, description.text);
+                          notedata.editNoteTitle(widget.note!, title.text);
+                        } else {
+                          notedata.newNote(title.text, description.text);
+                        }
 
-                  Navigator.pop(context);
-                },
-                child: Text("Add"),
+                        Navigator.pop(context);
+                      },
+                      child: Text(widget.note == null ? "Add" : "Save"),
+                    );
+                  },
+                ),
               )
             ],
           ),
