@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:notes/view_models/List_Notes_view_model.dart';
 import 'package:provider/provider.dart';
 import 'views/notes_list_view.dart';
-
-void main() {
+import 'services/Cashe_Helper.dart';
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheData.cacheInitialization();
   runApp(NoteApp());
 }
 
