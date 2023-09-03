@@ -108,7 +108,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         } else {
                           notedata.newNote(title.text, description.text);
                         }
-                        print(notedata.Notes[1].);
+                        print(notedata.Notes[1]);
                         Navigator.pop(context);
                       },
                       child: Text(widget.note == null ? "Add" : "Save"),

@@ -27,4 +27,9 @@ class Note {
   }
 
   Note(this._title, this._description);
+  Note.fromJson(Map<String ,dynamic>json){
+    title=json["title"];
+    description=json["description"];
+    creationTime=json["creationTime"];
+  }
 }

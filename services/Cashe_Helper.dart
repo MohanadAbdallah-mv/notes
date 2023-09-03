@@ -5,7 +5,7 @@ class CacheData{
     sharedPreferences =await SharedPreferences.getInstance();
   }
   static void setData({required String key,required dynamic value })async{
-    await sharedPreferences.setStringList(key, value);
+    await sharedPreferences.setString(key, value);
   }
   static dynamic getData({required String key}){
     return sharedPreferences.get(key);

@@ -16,6 +16,12 @@ class NotesListView extends StatefulWidget {
 
 class _NotesListViewState extends State<NotesListView> {
   @override
+  void initState(){
+    Provider.of<NoteListViewModel>(context,listen: false).updateNotes();// TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
