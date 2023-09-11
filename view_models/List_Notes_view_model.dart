@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notes/services/Cashe_Helper.dart';
 import 'package:notes/models/note_model.dart';
 
@@ -10,19 +11,10 @@ class NoteListViewModel extends ChangeNotifier {
 
   //List<String> keys=[];
   void newNote(String title, String description) {
-    Note note = Note(title, description);
+    Note note = Note(title, description,DateFormat.jm().format(DateTime.now()));
     //keys.add(title+description);
     _noteslist.add(note);
-    var Notemap = _noteslist.map((e) {
-      return {
-        "title": e.title,
-        "description":e.description,
-        "creationTime":e.creationTime
-      };
-    }).toList();
-    String notes = jsonEncode(Notemap);
-    CacheData.setData(key: "notes", value: notes);
-    print(Notemap);
+    saveNotes(_noteslist);
     notifyListeners();
   }
 
@@ -30,12 +22,13 @@ class NoteListViewModel extends ChangeNotifier {
 
   void deleteNote(Note note) {
     _noteslist.remove(note);
+    saveNotes(_noteslist);
     notifyListeners();
   }
 
   void editNoteTitle(Note note, String changedTitle) {
     note.title = changedTitle;
-
+    saveNotes(_noteslist);
     notifyListeners();
   }
 
@@ -46,6 +39,7 @@ class NoteListViewModel extends ChangeNotifier {
 
   void editNoteDescription(Note note, String changedDescription) {
     note.description = changedDescription;
+    saveNotes(_noteslist);
     notifyListeners();
   }
 
@@ -54,9 +48,21 @@ class NoteListViewModel extends ChangeNotifier {
   }
 
   void updateNotes() {
-    var mapper=jsonDecode(CacheData.getData(key: "notes"));
+    final List mapper=jsonDecode(CacheData.getData(key: "notes"));
+    _noteslist=mapper.map((val)=>Note.fromJson(val)).toList();
 //    _noteslist =  List.generate(3, (index) => Note.fromJson((map[index]))) ;
    // _noteslist.mapper.map<Note>( (entry) => Note(entry.key, entry.value)).toList();
-    print(mapper)
+    print(_noteslist);
+  }
+  void saveNotes(List<Note> list){
+    var Notemap = list.map((e) {
+      return {
+        "title": e.title,
+        "description":e.description,
+        "creationTime":e.creationTime
+      };
+    }).toList();
+    String notes = jsonEncode(Notemap);
+    CacheData.setData(key: "notes", value: notes);
   }
 }

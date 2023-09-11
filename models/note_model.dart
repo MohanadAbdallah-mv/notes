@@ -18,18 +18,25 @@ class Note {
   }
 
   //DateTime time=DateTime.now();
-  String _creationTime = DateFormat.jm().format(DateTime.now());
+  String? _creationTime;
 
-  String get creationTime => _creationTime;
+  String get creationTime => _creationTime!;
 
   set creationTime(String value) {
     _creationTime = value;
   }
 
-  Note(this._title, this._description);
-  Note.fromJson(Map<String ,dynamic>json){
-    title=json["title"];
-    description=json["description"];
-    creationTime=json["creationTime"];
+  Note(this._title, this._description,this._creationTime);
+
+  factory Note.fromJson(Map<String ,dynamic>json){
+    return Note(
+       json["title"], json["description"], json["creationTime"]);
   }
+
+  Map<String, dynamic> toJson() => {
+    "title": _title,
+    'description': _description,
+    'creationTime': _creationTime,
+
+  };
 }

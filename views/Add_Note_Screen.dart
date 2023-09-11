@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notes/constants.dart';
 import 'package:notes/view_models/List_Notes_view_model.dart';
+import 'package:notes/widgets/CustomButton.dart';
+import 'package:notes/widgets/CustomText.dart';
 import 'package:provider/provider.dart';
 import 'package:notes/models/note_model.dart';
 import 'package:intl/intl.dart';
@@ -41,7 +44,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         title: TextField(
           autofocus: true,
           textAlign: TextAlign.start,
-          controller: title,cursorColor: Color(0xFFE75E4E),
+          controller: title,
+          cursorColor: Color(0xFFE75E4E),
           decoration: InputDecoration(hintText: "Title"),
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: isOpen ? 50 : 25),
@@ -91,28 +95,27 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 flex: 1,
                 child: Consumer<NoteListViewModel>(
                   builder: (context, notedata, child) {
-                    return TextButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFFE75E4E)),
-                          foregroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      onPressed: () {
-                        if ((title.text).isEmpty) {
-                          title.text = DateFormat.MMMd().format(DateTime.now());
-                        }
-                        if (widget.note != null) {
-                          notedata.editNoteDescription(
-                              widget.note!, description.text);
-                          notedata.editNoteTitle(widget.note!, title.text);
-                        } else {
-                          notedata.newNote(title.text, description.text);
-                        }
-                        print(notedata.Notes[1]);
-                        Navigator.pop(context);
-                      },
-                      child: Text(widget.note == null ? "Add" : "Save"),
-                    );
+                    return CustomButton(
+                        child: CustomText(
+                          text: widget.note == null ? "Add" : "Save",
+                          align: Alignment.center,
+                        ),
+                        gradient: gradient,
+                        onpress: () {
+                          if ((title.text).isEmpty) {
+                            title.text =
+                                DateFormat.MMMd().format(DateTime.now());
+                          }
+                          if (widget.note != null) {
+                            notedata.editNoteDescription(
+                                widget.note!, description.text);
+                            notedata.editNoteTitle(widget.note!, title.text);
+                          } else {
+                            notedata.newNote(title.text, description.text);
+                          }
+                          print(notedata.Notes[1]);
+                          Navigator.pop(context);
+                        });
                   },
                 ),
               )
@@ -123,3 +126,13 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     );
   }
 }
+
+// TextButton(
+// style: ButtonStyle(
+// backgroundColor:
+// MaterialStateProperty.all(Color(0xFFE75E4E)),
+// foregroundColor:
+// MaterialStateProperty.all(Colors.white)),
+
+// child: Text(widget.note == null ? "Add" : "Save"),
+// )
