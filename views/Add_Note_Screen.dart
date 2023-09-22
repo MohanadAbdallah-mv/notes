@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notes/constants.dart';
+import 'package:notes/models/note_model.dart';
 import 'package:notes/view_models/List_Notes_view_model.dart';
 import 'package:notes/widgets/CustomButton.dart';
 import 'package:notes/widgets/CustomText.dart';
 import 'package:provider/provider.dart';
-import 'package:notes/models/note_model.dart';
-import 'package:intl/intl.dart';
 
 class AddNoteScreen extends StatefulWidget {
   Note? note;
@@ -51,11 +51,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               fontWeight: FontWeight.bold, fontSize: isOpen ? 50 : 25),
           onChanged: (new_title) {
             tempTitle = new_title;
-          },
-          onTapOutside: (value) {
-            setState(() {
-              isOpen = !isOpen;
-            });
           },
           onTap: () {
             setState(() {

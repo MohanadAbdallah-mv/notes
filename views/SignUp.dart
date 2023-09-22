@@ -6,8 +6,37 @@ import '../widgets/CustomButton.dart';
 import '../widgets/CustomText.dart';
 import '../widgets/CustomTextField.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class SignUp extends StatefulWidget {
+  SignUp({super.key});
+
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  late TextEditingController _email;
+
+  late TextEditingController _password;
+
+  late FocusNode _emailfield;
+
+  late FocusNode _passwordfield;
+
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +52,9 @@ class SignUp extends StatelessWidget {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Container(height: 30,width: 30,
+                      child: Container(
+                        height: 30,
+                        width: 30,
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                             border: Border.all(color: buttonBorderColor),
@@ -87,6 +118,9 @@ class SignUp extends StatelessWidget {
               CustomTextField(
                 hint: "Jhon doe",
                 headerText: "Name*",
+                onEditComplete: () {
+                  FocusScope.of(context).requestFocus(_emailfield);
+                },
               ),
               SizedBox(
                 height: 30,
@@ -94,6 +128,11 @@ class SignUp extends StatelessWidget {
               CustomTextField(
                 hint: "Enter your email",
                 headerText: "Email*",
+                focusNode: _emailfield,
+                textEditingController: _email,
+                onEditComplete: () {
+                  FocusScope.of(context).requestFocus(_passwordfield);
+                },
               ),
               SizedBox(
                 height: 30,
@@ -102,6 +141,8 @@ class SignUp extends StatelessWidget {
                 hint: "Create a password",
                 isPassword: true,
                 headerText: "Password*",
+                focusNode: _passwordfield,
+                textEditingController: _password,
               ),
               SizedBox(
                 height: 20,

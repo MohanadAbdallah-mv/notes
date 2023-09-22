@@ -1,17 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/view_models/List_Notes_view_model.dart';
-import 'package:notes/views/LogIn.dart';
 import 'package:provider/provider.dart';
-import 'views/notes_list_view.dart';
-import 'services/Cashe_Helper.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
-Future<void> main() async{
+import 'services/Cashe_Helper.dart';
+import 'views/notes_list_view.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheData.cacheInitialization();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   runApp(NoteApp());
 }
 
