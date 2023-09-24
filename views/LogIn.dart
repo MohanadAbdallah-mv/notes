@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:notes/constants.dart';
+import 'package:notes/new_architecture/controller/auth_controller.dart';
+import 'package:notes/new_architecture/datasource/auth_data.dart';
+import 'package:notes/new_architecture/repo/auth_logic.dart';
 import 'package:notes/views/SignUp.dart';
 import 'package:notes/widgets/CustomButton.dart';
 import 'package:notes/widgets/CustomText.dart';
 import 'package:notes/widgets/CustomTextField.dart';
 
-class LogIn extends StatelessWidget {
+class LogIn extends StatefulWidget {
   const LogIn({super.key});
 
   @override
+  State<LogIn> createState() => _LogInState();
+}
+
+
+class _LogInState extends State<LogIn> {
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: 50, left: 20, right: 20),
